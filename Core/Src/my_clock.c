@@ -98,11 +98,13 @@ void fsm_uart_respone(void) {
 	case TYPING:
 		if(!is_timer_on(1)){
 			respone_cnt++;
-			set_timer(1, 10000);
-			display_updating();
 			if(respone_cnt == 3){
 				lcd_ShowStr(20, 250, "ERROR IN UART...", WHITE, RED, 24, 0);
 				st_clock = DISPLAY;
+			}
+			else{
+				set_timer(1, 10000);
+				display_updating();
 			}
 		}
 		break;

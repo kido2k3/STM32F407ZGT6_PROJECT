@@ -23,10 +23,15 @@ void fsm_handle_uart_flag(void) {
 		switch (st_handle_flag) {
 		case TYPING:
 			if (ring_buffer.tail == 0) {
+				
 				last_char = ring_buffer.buffer[MAX_SIZE_RING_BUFFER - 1];
 			} else {
 				last_char = ring_buffer.buffer[ring_buffer.tail - 1];
 			}
+			char *str = "\n";
+			uart_Rs232SendString((uint8_t*) str);
+			uart_Rs232SendString(&(last_char));
+			
 			if (last_char == '%') {
 				st_handle_flag = DONE;
 			}
@@ -81,13 +86,11 @@ void debug_buffer(void){
 	uart_Rs232SendString((uint8_t*) temp);
 }
 bool take_number(uint16_t *number) {
-
-	// if (ring_buffer.buffer[ring_buffer.head] == '%') {
-	// 	uint8_t temp;
-	// 	rb_take_data(&temp);
-	// 	return 0;
-	// }
 	debug_buffer();
+	if (ring_buffer.buffer[ring_buffer.head] == '%') {
+		uint8_t temp;
+		rb_take_data(&temp);
+	}
 	uint8_t data_taken;
 	while (ring_buffer.buffer[ring_buffer.head] != '%'
 			&& rb_take_data(&data_taken)) {
@@ -184,7 +187,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 			ring_buffer.flag = 1;
 		}
 
-		// turn on the receice interrupt
+		// turn on the receive interrupt
 		HAL_UART_Receive_IT(&huart1, &receive_buffer1, 1);
 	}
 }

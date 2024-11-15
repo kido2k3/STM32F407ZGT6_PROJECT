@@ -49,9 +49,10 @@ void system_loop(void) {
 	if (!is_timer_on(0)) {
 		ds3231_ReadTime();
 		button_Scan();
+		fsm_handle_uart_flag();
 		set_timer(0, READ_BUTTON_TIME);
 	}
-	fsm_handle_uart_flag();
+	
 	fsm_clock();
 
 }

@@ -28,12 +28,12 @@ void fsm_handle_uart_flag(void) {
 			} else {
 				last_char = ring_buffer.buffer[ring_buffer.tail - 1];
 			}
-			char *str = "\n";
-			uart_Rs232SendString((uint8_t*) str);
-			uart_Rs232SendString(&(last_char));
-			
+			// char *str = "\n";
+			// uart_Rs232SendString((uint8_t*) str);
+			// uart_Rs232SendString(&(last_char));
+
 			if (last_char == '%') {
-				st_handle_flag = DONE;
+				change_st_uart_respone_to_check();
 			}
 			break;
 		case DONE:
@@ -86,20 +86,23 @@ void debug_buffer(void){
 	uart_Rs232SendString((uint8_t*) temp);
 }
 bool take_number(uint16_t *number) {
-	debug_buffer();
-	if (ring_buffer.buffer[ring_buffer.head] == '%') {
-		uint8_t temp;
-		rb_take_data(&temp);
-	}
+	// debug_buffer();
+	// if (ring_buffer.buffer[ring_buffer.head] == '%') {
+	// 	uint8_t temp;
+	// 	rb_take_data(&temp);
+	// }
 	uint8_t data_taken;
-	while (ring_buffer.buffer[ring_buffer.head] != '%'
-			&& rb_take_data(&data_taken)) {
-		*number = *number * 10 + (data_taken - '0');
+	// while (ring_buffer.buffer[ring_buffer.head] != '%'
+	// 		&& rb_take_data(&data_taken)) {
+	while(ring_buffer.head != ring_buffer.tail) {
+		rb_take_data(&data_taken);
+		if(data_taken >= "0" && data_taken <= "9")
+			*number = *number * 10 + (data_taken - '0');
 	}
-	if (ring_buffer.buffer[ring_buffer.head] == '%') {
-		uint8_t temp;
-		rb_take_data(&temp);
-	}
+	// if (ring_buffer.buffer[ring_buffer.head] == '%') {
+	// 	uint8_t temp;
+	// 	rb_take_data(&temp);
+	// }
 	return 1;
 
 }

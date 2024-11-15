@@ -101,14 +101,21 @@ void fsm_uart_respone(void) {
 			set_timer(1, 10000);
 			display_updating();
 			if(respone_cnt == 3){
-				lcd_ShowStr(20, 175, "ERROR IN UART...", WHITE, RED, 24, 0);
+				lcd_ShowStr(20, 250, "ERROR IN UART...", WHITE, RED, 24, 0);
 				st_clock = DISPLAY;
 			}
 		}
 		break;
 	case CHECK_DATA:
-		if (take_number(&data) && is_data_valid(data)) {
-			st_uart_respone = HANDLE_DATA;
+		if (take_number(&data)) {
+			if (is_data_valid(data))
+				st_uart_respone = HANDLE_DATA;
+			else {
+			respone_cnt = 0;
+			set_timer(1, 10000);
+			invalid_respone();
+			st_uart_respone = TYPING;
+			}
 		} else {
 			respone_cnt = 0;
 			set_timer(1, 10000);

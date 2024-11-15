@@ -73,12 +73,21 @@ void resquest_year(void){
 	char *str = "year\n";
 	uart_Rs232SendString((uint8_t*) str);
 }
+void debug_buffer(void){
+	char *str = ring_buffer.buffer;
+	uart_Rs232SendString((uint8_t*) str);
+	char temp[30];
+	sprintf(temp, "head:%d, tail:%d", ring_buffer.head, ring_buffer.tail);
+	uart_Rs232SendString((uint8_t*) temp);
+}
 bool take_number(uint16_t *number) {
+
 	// if (ring_buffer.buffer[ring_buffer.head] == '%') {
 	// 	uint8_t temp;
 	// 	rb_take_data(&temp);
 	// 	return 0;
 	// }
+	debug_buffer();
 	uint8_t data_taken;
 	while (ring_buffer.buffer[ring_buffer.head] != '%'
 			&& rb_take_data(&data_taken)) {

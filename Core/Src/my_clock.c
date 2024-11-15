@@ -99,30 +99,7 @@ void fsm_uart_respone(void) {
 		if(!is_timer_on(1)){
 			respone_cnt++;
 			set_timer(1, 10000);
-			switch (st_changing) {
-				case SECOND:
-					resquest_second();
-				break;
-				case MINUTE:
-					resquest_minute();
-				break;
-				case HOUR:
-					resquest_hour();
-				break;
-				case DAY:
-					resquest_day();
-					break;
-				case YEAR:
-					resquest_year();
-					break;
-				case MONTH:
-					resquest_month();
-					break;
-				case DATE:
-					resquest_date();
-					break;
-				
-			}
+			display_updating();
 			if(respone_cnt == 3){
 				lcd_ShowStr(20, 175, "ERROR IN UART...", WHITE, RED, 24, 0);
 				st_clock = DISPLAY;
@@ -130,7 +107,6 @@ void fsm_uart_respone(void) {
 		}
 		break;
 	case CHECK_DATA:
-
 		if (take_number(&data) && is_data_valid(data)) {
 			st_uart_respone = HANDLE_DATA;
 		} else {
@@ -171,6 +147,7 @@ void fsm_uart_respone(void) {
 			st_clock = DISPLAY;
 			break;
 		}
+		display_updating();
 		respone_cnt = 0;
 		set_timer(1, 10000);
 		st_uart_respone = TYPING;
@@ -264,25 +241,25 @@ void display_updating(void) {
 	reset_str2();
 	switch (st_changing) {
 	case SECOND:
-		lcd_ShowStr(20, 170, "Updating seconds...", WHITE, RED, 24, 0);
+		lcd_ShowStr(20, 250, "Updating seconds...", WHITE, RED, 24, 0);
 		break;
 	case MINUTE:
-		lcd_ShowStr(20, 170, "Updating minutes...", WHITE, RED, 24, 0);
+		lcd_ShowStr(20, 250, "Updating minutes...", WHITE, RED, 24, 0);
 		break;
 	case HOUR:
-		lcd_ShowStr(20, 170, "Updating hours...", WHITE, RED, 24, 0);
+		lcd_ShowStr(20, 250, "Updating hours...", WHITE, RED, 24, 0);
 		break;
 	case DAY:
-		lcd_ShowStr(20, 170, "Updating day...", WHITE, RED, 24, 0);
+		lcd_ShowStr(20, 250, "Updating day...", WHITE, RED, 24, 0);
 		break;
 	case DATE:
-		lcd_ShowStr(20, 170, "Updating date...", WHITE, RED, 24, 0);
+		lcd_ShowStr(20, 250, "Updating date...", WHITE, RED, 24, 0);
 		break;
 	case MONTH:
-		lcd_ShowStr(20, 170, "Updating month...", WHITE, RED, 24, 0);
+		lcd_ShowStr(20, 250, "Updating month...", WHITE, RED, 24, 0);
 		break;
 	case YEAR:
-		lcd_ShowStr(20, 170, "Updating year...", WHITE, RED, 24, 0);
+		lcd_ShowStr(20, 250, "Updating year...", WHITE, RED, 24, 0);
 		break;
 	}
 }
@@ -571,7 +548,7 @@ void reset_str(void) {
  * @retval:	none
  * */
 void reset_str2(void) {
-	lcd_ShowStr(20, 170, "Updating seconds...", BLACK, BLACK, 24, 0);
+	lcd_ShowStr(20, 250, "Updating seconds...", BLACK, BLACK, 24, 0);
 }
 /*
  * @brief:	mode button fsm - 2 states

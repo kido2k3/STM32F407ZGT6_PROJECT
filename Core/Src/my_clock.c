@@ -124,7 +124,7 @@ void fsm_uart_respone(void) {
 				
 			}
 			if(respone_cnt == 3){
-				lcd_ShowStr(20, 60, "ERROR IN UART...", WHITE, RED, 24, 0);
+				lcd_ShowStr(20, 175, "ERROR IN UART...", WHITE, RED, 24, 0);
 				st_clock = DISPLAY;
 			}
 		}
@@ -261,27 +261,28 @@ bool is_data_valid(uint8_t number) {
 	return 1;
 }
 void display_updating(void) {
+	reset_str2();
 	switch (st_changing) {
 	case SECOND:
-		lcd_ShowStr(20, 60, "Updating seconds...", WHITE, RED, 24, 0);
+		lcd_ShowStr(20, 170, "Updating seconds...", WHITE, RED, 24, 0);
 		break;
 	case MINUTE:
-		lcd_ShowStr(20, 60, "Updating minutes...", WHITE, RED, 24, 0);
+		lcd_ShowStr(20, 170, "Updating minutes...", WHITE, RED, 24, 0);
 		break;
 	case HOUR:
-		lcd_ShowStr(20, 60, "Updating hours...", WHITE, RED, 24, 0);
+		lcd_ShowStr(20, 170, "Updating hours...", WHITE, RED, 24, 0);
 		break;
 	case DAY:
-		lcd_ShowStr(20, 60, "Updating day...", WHITE, RED, 24, 0);
+		lcd_ShowStr(20, 170, "Updating day...", WHITE, RED, 24, 0);
 		break;
 	case DATE:
-		lcd_ShowStr(20, 60, "Updating date...", WHITE, RED, 24, 0);
+		lcd_ShowStr(20, 170, "Updating date...", WHITE, RED, 24, 0);
 		break;
 	case MONTH:
-		lcd_ShowStr(20, 60, "Updating month...", WHITE, RED, 24, 0);
+		lcd_ShowStr(20, 170, "Updating month...", WHITE, RED, 24, 0);
 		break;
 	case YEAR:
-		lcd_ShowStr(20, 60, "Updating year...", WHITE, RED, 24, 0);
+		lcd_ShowStr(20, 170, "Updating year...", WHITE, RED, 24, 0);
 		break;
 	}
 }
@@ -563,6 +564,14 @@ void fsm_changing(void) {
  * */
 void reset_str(void) {
 	lcd_ShowStr(20, 30, "MODE: CHANGE TIME", BLACK, BLACK, 24, 0);
+}
+/*
+ * @brief:	reset the string when transitioning mode
+ * @para:	none
+ * @retval:	none
+ * */
+void reset_str2(void) {
+	lcd_ShowStr(20, 170, "Updating seconds...", BLACK, BLACK, 24, 0);
 }
 /*
  * @brief:	mode button fsm - 2 states

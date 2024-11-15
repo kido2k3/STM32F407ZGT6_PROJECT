@@ -107,15 +107,8 @@ void fsm_uart_respone(void) {
 		}
 		break;
 	case CHECK_DATA:
-		if (take_number(&data)) {
-			if (is_data_valid(data))
+		if (take_number(&data) && is_data_valid(data))
 				st_uart_respone = HANDLE_DATA;
-			else {
-			respone_cnt = 0;
-			set_timer(1, 10000);
-			invalid_respone();
-			st_uart_respone = TYPING;
-			}
 		} else {
 			respone_cnt = 0;
 			set_timer(1, 10000);

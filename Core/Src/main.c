@@ -203,20 +203,20 @@ void ex3() {
       cnt++;
       HAL_GPIO_TogglePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin);
       led7_Scan();
-      setTimer0(1000);
+      setTimer0(250);
     }
   } else if (mode == _25_HZ) {
     if (timer0_flag) {
     	cnt++;
       HAL_GPIO_TogglePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin);
       led7_Scan();
-      setTimer0(40);
+      setTimer0(10);
     }
   } else if (mode == _100_HZ) {
     if (timer0_flag) {
       HAL_GPIO_TogglePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin);
       led7_Scan();
-      setTimer0(10);
+      setTimer0(3);
     }
   }
 }
